@@ -3,9 +3,9 @@
  *
  * @brief       hardware abstraction layer for CEC device
  *
- * @Author	    Zain Ijaz
+ * @Author      Zain Ijaz
  *
- * @Occupation	Software Engineer
+ * @Occupation  Software Engineer
  */
 
 /*
@@ -41,13 +41,8 @@
  ********************************************************************************
  */
 
-
-int main(int argc, char *argv[])
+int print_menu()
 {
-
-    printf("Testing file\n");
-    print_menu();
+    printf("Printing menu\n");
     return 0;
-
 }
-

@@ -1,0 +1,22 @@
+CC=gcc
+CFLAGS=-c -g -Wall
+
+all: run_me
+
+run_me: tic_tac_toe.o game_menu.o
+	$(CC) tic_tac_toe.o game_menu.o -o run_me
+
+tic_tac_toe.o:
+	$(CC) $(CFLAGS) -c tic_tac_toe.c
+
+game_menu.o:
+	$(CC) $(CFLAGS) -c game_menu.c
+
+clean:
+	rm *o run_me
+
+# -c  Compile or assemble the source files, but do not link.  The linking \
+      stage simply is not done. The ultimate output is in the form of an \
+      object file for each source file.
+
+
