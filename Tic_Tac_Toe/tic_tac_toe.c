@@ -22,13 +22,15 @@
  */
 
 #include<stdio.h>
-
+#include<stdlib.h>
 /*
  ********************************************************************************
  * Constants.
  ********************************************************************************
  */
-
+#define     MAZE_MAX    9
+#define     ROWS_MAX    3
+#define     COLS_MAX    3
 /*
  ********************************************************************************
  * Globals
@@ -40,14 +42,85 @@
  * Prototypes.
  ********************************************************************************
  */
+void create_maze(char*** maze);
+void print_maze(char** func_maze);
 
 
-int main(int argc, char *argv[])
+int main( int argc, char *argv[] )
 {
+    char **maze_ptr = NULL;
 
-    printf("Testing file\n");
-    print_menu();
+    create_maze(&maze_ptr);
+    printf("%c", maze_ptr[0][0]);
+    printf( "Testing file\n" );
+
     return 0;
-
 }
+
+
+void create_maze(char*** maze)
+{
+    int i,j;
+
+    char test= 'A';
+
+    char **tmp = (char **)malloc(ROWS_MAX * sizeof(char *));
+
+    for(i=0;i<COLS_MAX;i++)
+    {
+        tmp[i] = (char *)malloc(COLS_MAX * sizeof(char));
+    }
+
+    for(i=0;i<COLS_MAX;i++)
+    {
+        for(j=0;j<ROWS_MAX;j++)
+        {
+            tmp[i][j] = test;
+            test++;
+        } 
+    }
+    *maze = tmp;
+} 
+
+void print_maze(char **func_maze)
+{
+    int in_x, in_y;
+
+    for( in_x=0; in_x < ROWS_MAX; in_x++)
+    {
+        for(in_y=0;in_y< COLS_MAX;in_y++)
+        {
+            printf("%c", func_maze[in_x][in_y]);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
