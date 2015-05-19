@@ -1,7 +1,7 @@
 /**
  * @file        tic_tac_toe.c
  *
- * @brief       hardware abstraction layer for CEC device
+ * @brief       Tic tac toe main 
  *
  * @Author	    Zain Ijaz
  *
@@ -23,11 +23,13 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+
 /*
  ********************************************************************************
  * Constants.
  ********************************************************************************
  */
+
 #define     MAZE_MAX    9
 #define     ROWS_MAX    3
 #define     COLS_MAX    3
@@ -44,6 +46,7 @@
  */
 void create_maze(char*** maze);
 void print_maze(char** func_maze);
+void destroy_maze(char** maze);
 
 
 int main( int argc, char *argv[] )
@@ -51,8 +54,10 @@ int main( int argc, char *argv[] )
     char **maze_ptr = NULL;
 
     create_maze(&maze_ptr);
-    printf("%c", maze_ptr[0][0]);
-    printf( "Testing file\n" );
+
+    print_maze(maze_ptr);
+
+    destroy_maze(maze_ptr);
 
     return 0;
 }
@@ -62,25 +67,34 @@ void create_maze(char*** maze)
 {
     int i,j;
 
-    char test= 'A';
-
-    char **tmp = (char **)malloc(ROWS_MAX * sizeof(char *));
+    char **tmp = (char **)calloc(ROWS_MAX, sizeof(char *));
 
     for(i=0;i<COLS_MAX;i++)
     {
-        tmp[i] = (char *)malloc(COLS_MAX * sizeof(char));
+        tmp[i] = (char *)calloc(COLS_MAX , sizeof(char));
     }
 
     for(i=0;i<COLS_MAX;i++)
     {
         for(j=0;j<ROWS_MAX;j++)
         {
-            tmp[i][j] = test;
-            test++;
+            tmp[i][j] = '-';
         } 
     }
     *maze = tmp;
 } 
+
+void destroy_maze(char** maze)
+{
+    int i;
+
+    for(i=0;i<COLS_MAX;i++)
+    {
+            free(maze[i]);
+    }
+
+    free(maze);
+}
 
 void print_maze(char **func_maze)
 {
@@ -88,9 +102,11 @@ void print_maze(char **func_maze)
 
     for( in_x=0; in_x < ROWS_MAX; in_x++)
     {
+        printf("\n");
         for(in_y=0;in_y< COLS_MAX;in_y++)
         {
-            printf("%c", func_maze[in_x][in_y]);
+            printf("%c\t", func_maze[in_x][in_y]);
+            
         }
     }
 }
