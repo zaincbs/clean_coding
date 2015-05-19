@@ -1,0 +1,21 @@
+Noes Learnt while Practising C programming. 
+--------------------------------------------
+
+
+1) Learnt About passing a double pointer to a function via reference. Here is the Example:
+
+-----------------------------------------------------------------------------------------
+int main()
+{
+    char **ptr;
+
+    pass_double_ptr_by_reference(&ptr);
+
+}
+
+pass_double_ptr_by_reference(char ***ptr);
+{
+    /*allocate Memory*/
+    *ptr[o][p] = value
+}
+-----------------------------------------------------------------------------------------
