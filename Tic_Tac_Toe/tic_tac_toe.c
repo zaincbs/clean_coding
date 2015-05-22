@@ -47,13 +47,17 @@
 void create_maze(char*** maze);
 void print_maze(char** func_maze);
 void destroy_maze(char** maze);
-
+void set_maze_values (char ***maze, int x, int y, char value);
 
 int main( int argc, char *argv[] )
 {
     char **maze_ptr = NULL;
 
     create_maze(&maze_ptr);
+
+    print_maze(maze_ptr);
+
+    set_maze_values(&maze_ptr, 0,1,'X');
 
     print_maze(maze_ptr);
 
@@ -109,15 +113,21 @@ void print_maze(char **func_maze)
             
         }
     }
+    printf("\n");
 }
 
 
+void set_maze_values (char ***maze, int x, int y, char value)
+{
+    if(value == 'X' || value == 'O')
+        *maze[x][y] = value;
+}
 
 
-
-
-
-
+//Return value from each function and write doxygen comments about each function
+//Create a header file with all the definiations and another header file with all the function prototypes. 
+//Create a new thread that keeps looking at the game combination and use mutex to sychronize data. 
+//Create a library for the tictactoe.so and link it to the application
 
 
 
