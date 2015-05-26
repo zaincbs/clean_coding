@@ -23,7 +23,6 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-
 /*
  ********************************************************************************
  * Constants.
@@ -43,31 +42,74 @@
  ********************************************************************************
  * Prototypes.
  ********************************************************************************
- */
-void create_maze(char*** maze);
-void print_maze(char** func_maze);
-void destroy_maze(char** maze);
-void set_maze_values (char ***maze, int x, int y, char value);
+*/
+
+
+void tic_tac_create_maze(char*** maze);
+void tic_tac_print_maze(char** func_maze);
+void tic_tac_destroy_maze(char** maze);
+void tic_tac_set_maze_values (char ***maze, int x, int y, char value);
+void tic_tac_arrow_key();
 
 int main( int argc, char *argv[] )
 {
     char **maze_ptr = NULL;
+    while(1)
+    {
+        tic_tac_arrow_key();
+    }
 
-    create_maze(&maze_ptr);
+    tic_tac_create_maze(&maze_ptr);
+    tic_tac_print_maze(maze_ptr);
 
-    print_maze(maze_ptr);
 
-    set_maze_values(&maze_ptr, 0,1,'X');
+    tic_tac_set_maze_values(&maze_ptr, 0,1,'X');
 
-    print_maze(maze_ptr);
+    tic_tac_print_maze(maze_ptr);
 
-    destroy_maze(maze_ptr);
+    tic_tac_destroy_maze(maze_ptr);
 
     return 0;
 }
 
 
-void create_maze(char*** maze)
+void tic_tac_arrow_key()
+{
+
+    if (getchar() == '\033') 
+    { // if the first value is esc
+        getchar(); // skip the [
+        switch(getchar()) 
+        { // the real value
+            case 'A':
+                printf("Up\n");// code for arrow up
+                break;
+            case 'B':
+                printf("Down\n");// code for arrow down
+                break;
+            case 'C':
+                printf("Right\n");// code for arrow right
+                break;
+            case 'D':
+                printf("Left\n");// code for arrow left
+                break;
+        }
+    }
+}
+
+void tic_tac_print_menu()
+{
+    printf("*****************************************************\n");
+    printf("*********** Welcome to Tic Tac Toe ******************\n");
+    printf("*****************************************************\n");
+
+
+    printf("Start Game:\t\t1\n"); 
+    printf("Help:\t\t?\n");
+    printf("\n");
+}
+
+void tic_tac_create_maze(char*** maze)
 {
     int i,j;
 
@@ -88,7 +130,7 @@ void create_maze(char*** maze)
     *maze = tmp;
 } 
 
-void destroy_maze(char** maze)
+void tic_tac_destroy_maze(char** maze)
 {
     int i;
 
@@ -100,7 +142,7 @@ void destroy_maze(char** maze)
     free(maze);
 }
 
-void print_maze(char **func_maze)
+void tic_tac_print_maze(char **func_maze)
 {
     int in_x, in_y;
 
@@ -117,7 +159,7 @@ void print_maze(char **func_maze)
 }
 
 
-void set_maze_values (char ***maze, int x, int y, char value)
+void tic_tac_set_maze_values (char ***maze, int x, int y, char value)
 {
     if(value == 'X' || value == 'O')
         *maze[x][y] = value;
