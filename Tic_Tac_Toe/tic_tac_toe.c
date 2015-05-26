@@ -23,6 +23,8 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include <termios.h>
+#include <unistd.h>
 /*
  ********************************************************************************
  * Constants.
@@ -44,20 +46,19 @@
  ********************************************************************************
 */
 
-
+void tic_tac_print_menu();
 void tic_tac_create_maze(char*** maze);
 void tic_tac_print_maze(char** func_maze);
 void tic_tac_destroy_maze(char** maze);
 void tic_tac_set_maze_values (char ***maze, int x, int y, char value);
 void tic_tac_arrow_key();
+int tic_tac_getch(void);
 
 int main( int argc, char *argv[] )
 {
     char **maze_ptr = NULL;
-    while(1)
-    {
-        tic_tac_arrow_key();
-    }
+    tic_tac_print_menu();
+    tic_tac_arrow_key();
 
     tic_tac_create_maze(&maze_ptr);
     tic_tac_print_maze(maze_ptr);
@@ -73,13 +74,27 @@ int main( int argc, char *argv[] )
 }
 
 
+int tic_tac_getch(void)
+{
+    struct termios oldattr, newattr;
+    int ch;
+    tcgetattr( STDIN_FILENO, &oldattr );
+    newattr = oldattr;
+    newattr.c_lflag &= ~( ICANON | ECHO );
+    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
+    ch = getchar();
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldattr );
+    return ch;
+}
+
+
 void tic_tac_arrow_key()
 {
 
-    if (getchar() == '\033') 
+    if (tic_tac_getch() == '\033') 
     { // if the first value is esc
-        getchar(); // skip the [
-        switch(getchar()) 
+        tic_tac_getch(); // skip the [
+        switch(tic_tac_getch()) 
         { // the real value
             case 'A':
                 printf("Up\n");// code for arrow up
@@ -105,7 +120,7 @@ void tic_tac_print_menu()
 
 
     printf("Start Game:\t\t1\n"); 
-    printf("Help:\t\t?\n");
+    printf("Help:      \t\t?\n");
     printf("\n");
 }
 
