@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <termios.h>
 #include <unistd.h>
+#include <errno.h>
 #include "tic_tac_toe.h"
 /*
  ********************************************************************************
@@ -49,17 +50,25 @@
  * Prototypes.
  ********************************************************************************
 */
+int tic_tac_toe_start(void);
 
 int main( int argc, char *argv[] )
 {
     system("clear");
 
+    tic_tac_toe_start();
+
+    return 0;
+}
+
+
+int tic_tac_toe_start(void)
+{
     char **maze_ptr = NULL;
 
     tic_tac_print_menu();
     maze_ptr = tic_tac_create_maze(); //error checking
     tic_tac_destroy_maze(maze_ptr);
-
     return 0;
 }
 
@@ -116,12 +125,25 @@ void tic_tac_print_menu()
 char **tic_tac_create_maze()
 {
     int i,j;
-
-    char **tmp = (char **)calloc(ROWS_MAX, sizeof(char *)); //error checking missing
+    char **tmp; 
+    
+    tmp = (char **)calloc(ROWS_MAX, sizeof(char *));
+    if(tmp == NULL)
+    {
+        perror("Malloc Failed!");
+        printf("errno = %d.\n", errno);
+        exit(1);
+    }
 
     for(i=0;i<COLS_MAX;i++)
     {
-        tmp[i] = (char *)calloc(COLS_MAX , sizeof(char)); //error checking missing 
+        tmp[i] = (char *)calloc(COLS_MAX , sizeof(char));  
+        if(tmp[i] == NULL)
+        {
+            perror("Malloc Failed!");
+            printf("errno = %d.\n", errno);
+            exit(1);   
+        }
     }
 
     for(i=0;i<COLS_MAX;i++)
@@ -140,10 +162,17 @@ void tic_tac_destroy_maze(char** maze)
 
     for(i=0;i<COLS_MAX;i++)
     {
+        if(maze[i] != NULL)
+        {
             free(maze[i]);
+            maze[i] = NULL;
+        }
     }
-
-    free(maze);
+    if(maze != NULL)
+    {
+        free(maze);
+        maze = NULL;
+    }
 }
 
 void tic_tac_print_maze(char **func_maze)
@@ -156,7 +185,6 @@ void tic_tac_print_maze(char **func_maze)
         for(in_y=0;in_y< COLS_MAX;in_y++)
         {
             printf("%c\t", func_maze[in_x][in_y]);
-            
         }
     }
     printf("\n");
