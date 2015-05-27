@@ -9,10 +9,10 @@
  */
 
 /*
- * These materials are provided under license by UEI.
- * UEI licenses this file to you under the SOFTWARE EVALUATION LICENSE AGREEMENT
+ * These materials are provided under license by RX EMBEDDED.
+ * RX EMBEDDED licenses this file to you under the SOFTWARE EVALUATION LICENSE AGREEMENT
  * accompanying the SDK delivered to you (the "License").
- * You may also obtain a copy of the License directly from UEI.
+ * You may also obtain a copy of the License directly from RX EMBEDDED.
  * You may not use this file except in strict compliance with the License
  * and all restrictions set forth therein. Your use and access to the file
  * constitutes your agreement to be bound by the terms of the License.
@@ -21,24 +21,28 @@
  * WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, either express or implied.
  */
 
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <termios.h>
 #include <unistd.h>
+#include "tic_tac_toe.h"
 /*
  ********************************************************************************
  * Constants.
  ********************************************************************************
- */
+*/
 
 #define     MAZE_MAX    9
 #define     ROWS_MAX    3
 #define     COLS_MAX    3
+
 /*
  ********************************************************************************
  * Globals
  ********************************************************************************
- */
+*/
+
+
 
 /*
  ********************************************************************************
@@ -46,20 +50,14 @@
  ********************************************************************************
 */
 
-void tic_tac_print_menu();
-char **tic_tac_create_maze();
-void tic_tac_print_maze(char** func_maze);
-void tic_tac_destroy_maze(char** maze);
-void tic_tac_set_maze_values (char **maze, int x, int y, char value);
-void tic_tac_arrow_key();
-int  tic_tac_getch(void);
-
 int main( int argc, char *argv[] )
 {
+    system("clear");
+
     char **maze_ptr = NULL;
+
     tic_tac_print_menu();
     maze_ptr = tic_tac_create_maze(); //error checking
-
     tic_tac_destroy_maze(maze_ptr);
 
     return 0;
