@@ -47,26 +47,18 @@
 */
 
 void tic_tac_print_menu();
-void tic_tac_create_maze(char*** maze);
+char **tic_tac_create_maze();
 void tic_tac_print_maze(char** func_maze);
 void tic_tac_destroy_maze(char** maze);
-void tic_tac_set_maze_values (char ***maze, int x, int y, char value);
+void tic_tac_set_maze_values (char **maze, int x, int y, char value);
 void tic_tac_arrow_key();
-int tic_tac_getch(void);
+int  tic_tac_getch(void);
 
 int main( int argc, char *argv[] )
 {
     char **maze_ptr = NULL;
     tic_tac_print_menu();
-    tic_tac_arrow_key();
-
-    tic_tac_create_maze(&maze_ptr);
-    tic_tac_print_maze(maze_ptr);
-
-
-    tic_tac_set_maze_values(&maze_ptr, 0,1,'X');
-
-    tic_tac_print_maze(maze_ptr);
+    maze_ptr = tic_tac_create_maze(); //error checking
 
     tic_tac_destroy_maze(maze_ptr);
 
@@ -118,21 +110,20 @@ void tic_tac_print_menu()
     printf("*********** Welcome to Tic Tac Toe ******************\n");
     printf("*****************************************************\n");
 
-
     printf("Start Game:\t\t1\n"); 
     printf("Help:      \t\t?\n");
     printf("\n");
 }
 
-void tic_tac_create_maze(char*** maze)
+char **tic_tac_create_maze()
 {
     int i,j;
 
-    char **tmp = (char **)calloc(ROWS_MAX, sizeof(char *));
+    char **tmp = (char **)calloc(ROWS_MAX, sizeof(char *)); //error checking missing
 
     for(i=0;i<COLS_MAX;i++)
     {
-        tmp[i] = (char *)calloc(COLS_MAX , sizeof(char));
+        tmp[i] = (char *)calloc(COLS_MAX , sizeof(char)); //error checking missing 
     }
 
     for(i=0;i<COLS_MAX;i++)
@@ -142,7 +133,7 @@ void tic_tac_create_maze(char*** maze)
             tmp[i][j] = '-';
         } 
     }
-    *maze = tmp;
+    return tmp;
 } 
 
 void tic_tac_destroy_maze(char** maze)
@@ -174,10 +165,10 @@ void tic_tac_print_maze(char **func_maze)
 }
 
 
-void tic_tac_set_maze_values (char ***maze, int x, int y, char value)
+void tic_tac_set_maze_values (char **maze, int x, int y, char value)
 {
     if(value == 'X' || value == 'O')
-        *maze[x][y] = value;
+        maze[x][y] = value;
 }
 
 
