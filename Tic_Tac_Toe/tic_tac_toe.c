@@ -73,6 +73,9 @@ int tic_tac_toe_start(void)
 
     maze_ptr = tic_tac_create_maze(); //error checking
     
+    tic_tac_set_maze_values(maze_ptr, 0, 0, 'X');
+
+
     tic_tac_toe_get_indexes(maze_ptr, &x_x, &y_y);
 
     tic_tac_destroy_maze(maze_ptr);
@@ -84,20 +87,53 @@ void tic_tac_toe_get_indexes(char **maze_for_check, int *x, int *y)
 {
     int x_axis= 1;
     int y_axis= 1;
+    int key_press;    
+    int ret;
 
-    while(1)
+    tic_tac_print_maze(maze_for_check); 
+    while(key_press != TIC_ENTER)
     {
         printf("Use Arrow Keys to select your marking Position:\n");
+        
         tic_tac_print_maze(maze_for_check); 
-        tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, 'O');
-            
-        switch(tic_tac_arrow_key())
+        
+        key_press = tic_tac_arrow_key();
+        
+
+        switch(key_press)
         {
-            case TIC_UP:
-                x_axis++;
-            case TIC_DOWN:
+            case TIC_RIGHT:
+                tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, '-');
                 y_axis++;
+                break;
+            case TIC_LEFT:
+                tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, '-');
+                y_axis--;
+                break;
+            case TIC_UP:
+                tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, '-');
+                x_axis--;
+                break;
+            case TIC_DOWN:
+                tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, '-');
+                x_axis++;
+                break;
+            case TIC_ENTER:
+                *x = x_axis;
+                *y = y_axis;
+                break;
         } 
+
+        if(x_axis > 2)
+            x_axis = 2;
+        else if(y_axis > 2)
+            y_axis = 2;
+        else if(x_axis < 0)
+            x_axis = 0;
+        else if(y_axis < 0)
+            y_axis = 0;
+
+        tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, 'O');
     }
 }
 
@@ -229,10 +265,20 @@ void tic_tac_print_maze(char **func_maze)
 }
 
 
-void tic_tac_set_maze_values (char **maze, int x, int y, char value)
+int tic_tac_set_maze_values (char **maze, int x, int y, char value)
 {
-    if(value == 'X' || value == 'O')
-        maze[x][y] = value;
+    if(value == 'X' || value == 'O' || value == '-' ) 
+    {
+        if(maze[x][y] == '-' || value == '-')
+        {
+            maze[x][y] = value;
+        }
+    }
+    else
+    {
+        printf("Only X and O's allowed");
+        return N_ERROR;
+    }
 }
 
 

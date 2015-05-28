@@ -31,6 +31,11 @@ extern "C" {
 
 typedef enum
 {
+    N_ERROR = -1
+}code_error_t;
+
+typedef enum
+{
     TIC_UP = 1,
     TIC_DOWN = 2,
     TIC_RIGHT = 3,
@@ -44,7 +49,7 @@ void tic_tac_print_menu();
 char **tic_tac_create_maze();
 void tic_tac_print_maze(char** func_maze);
 void tic_tac_destroy_maze(char** maze);
-void tic_tac_set_maze_values (char **maze, int x, int y, char value); 
+int tic_tac_set_maze_values (char **maze, int x, int y, char value); 
 int  tic_tac_arrow_key();
 int  tic_tac_getch(void);
 
