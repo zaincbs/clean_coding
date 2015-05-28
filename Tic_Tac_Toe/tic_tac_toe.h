@@ -29,12 +29,23 @@
 extern "C" {
 #endif
 
+typedef enum
+{
+    TIC_UP = 1,
+    TIC_DOWN = 2,
+    TIC_RIGHT = 3,
+    TIC_LEFT = 4,
+    TIC_ENTER = 5,
+    TIC_INVALID = -1
+}user_arrow_key_t;
+
+
 void tic_tac_print_menu();
 char **tic_tac_create_maze();
 void tic_tac_print_maze(char** func_maze);
 void tic_tac_destroy_maze(char** maze);
 void tic_tac_set_maze_values (char **maze, int x, int y, char value); 
-void tic_tac_arrow_key();
+int  tic_tac_arrow_key();
 int  tic_tac_getch(void);
 
 

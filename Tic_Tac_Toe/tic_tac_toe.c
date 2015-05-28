@@ -44,13 +44,15 @@
 */
 
 
-
 /*
  ********************************************************************************
  * Prototypes.
  ********************************************************************************
 */
 int tic_tac_toe_start(void);
+void tic_tac_toe_get_indexes(char **maze_for_check, int *x, int *y);
+
+
 
 int main( int argc, char *argv[] )
 {
@@ -65,13 +67,39 @@ int main( int argc, char *argv[] )
 int tic_tac_toe_start(void)
 {
     char **maze_ptr = NULL;
+    int x_x, y_y;
 
     tic_tac_print_menu();
+
     maze_ptr = tic_tac_create_maze(); //error checking
+    
+    tic_tac_toe_get_indexes(maze_ptr, &x_x, &y_y);
+
     tic_tac_destroy_maze(maze_ptr);
+
     return 0;
 }
 
+void tic_tac_toe_get_indexes(char **maze_for_check, int *x, int *y)
+{
+    int x_axis= 1;
+    int y_axis= 1;
+
+    while(1)
+    {
+        printf("Use Arrow Keys to select your marking Position:\n");
+        tic_tac_print_maze(maze_for_check); 
+        tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, 'O');
+            
+        switch(tic_tac_arrow_key())
+        {
+            case TIC_UP:
+                x_axis++;
+            case TIC_DOWN:
+                y_axis++;
+        } 
+    }
+}
 
 int tic_tac_getch(void)
 {
@@ -87,28 +115,38 @@ int tic_tac_getch(void)
 }
 
 
-void tic_tac_arrow_key()
+int tic_tac_arrow_key()
 {
+    char user_in;
 
-    if (tic_tac_getch() == '\033') 
+    user_in = tic_tac_getch();
+
+    if (user_in == '\033') 
     { // if the first value is esc
         tic_tac_getch(); // skip the [
         switch(tic_tac_getch()) 
         { // the real value
             case 'A':
-                printf("Up\n");// code for arrow up
+                return TIC_UP; // code for arrow up
                 break;
             case 'B':
-                printf("Down\n");// code for arrow down
+                return TIC_DOWN; // code for arrow down
                 break;
             case 'C':
-                printf("Right\n");// code for arrow right
+                return TIC_RIGHT; // code for arrow right
                 break;
             case 'D':
-                printf("Left\n");// code for arrow left
+                return TIC_LEFT; // code for arrow left
                 break;
+            /*add default*/
         }
     }
+    else if(user_in == '\n')
+    {
+        return TIC_ENTER;
+    }
+
+    return TIC_INVALID;
 }
 
 void tic_tac_print_menu()
