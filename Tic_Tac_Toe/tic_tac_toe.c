@@ -74,6 +74,8 @@ int tic_tac_toe_start(void)
     maze_ptr = tic_tac_create_maze(); //error checking
     
     tic_tac_set_maze_values(maze_ptr, 0, 0, 'X');
+    tic_tac_set_maze_values(maze_ptr, 0, 2, 'X');
+    tic_tac_set_maze_values(maze_ptr, 1, 2, 'X');
 
 
     tic_tac_toe_get_indexes(maze_ptr, &x_x, &y_y);
@@ -89,6 +91,9 @@ void tic_tac_toe_get_indexes(char **maze_for_check, int *x, int *y)
     int y_axis= 1;
     int key_press;    
     int ret;
+    char old_value = '-';
+    int old_x = 1;
+    int old_y = 1; 
 
     tic_tac_print_maze(maze_for_check); 
     while(key_press != TIC_ENTER)
@@ -96,26 +101,32 @@ void tic_tac_toe_get_indexes(char **maze_for_check, int *x, int *y)
         printf("Use Arrow Keys to select your marking Position:\n");
         
         tic_tac_print_maze(maze_for_check); 
-        
+
         key_press = tic_tac_arrow_key();
         
+        old_x = x_axis;
+        old_y = y_axis;
 
         switch(key_press)
         {
             case TIC_RIGHT:
-                tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, '-');
+                tic_tac_set_maze_values(maze_for_check, old_x, old_y, old_value);
+                old_value = maze_for_check[old_x][old_y];
                 y_axis++;
                 break;
             case TIC_LEFT:
-                tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, '-');
+                tic_tac_set_maze_values(maze_for_check, old_x, old_y, old_value);
+                old_value = maze_for_check[old_x][old_y];
                 y_axis--;
                 break;
             case TIC_UP:
-                tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, '-');
+                tic_tac_set_maze_values(maze_for_check, old_x, old_y, old_value);
+                old_value = maze_for_check[old_x][old_y];
                 x_axis--;
                 break;
             case TIC_DOWN:
-                tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, '-');
+                tic_tac_set_maze_values(maze_for_check, old_x, old_y, old_value);
+                old_value = maze_for_check[old_x][old_y];
                 x_axis++;
                 break;
             case TIC_ENTER:
@@ -133,7 +144,10 @@ void tic_tac_toe_get_indexes(char **maze_for_check, int *x, int *y)
         else if(y_axis < 0)
             y_axis = 0;
 
-        tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, 'O');
+        if(maze_for_check[x_axis][y_axis] != 'O' || maze_for_check[x_axis][y_axis] != 'X')
+        { 
+            tic_tac_set_maze_values(maze_for_check, x_axis, y_axis, 'O');
+        }
     }
 }
 
