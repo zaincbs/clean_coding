@@ -5,5 +5,7 @@
 typedef struct node_data_t
 {
     int data;
+    struct node_data_t      *next_highest;
+    int h_data;
     struct node_data_t *nxt_ptr;
 }node_t;
